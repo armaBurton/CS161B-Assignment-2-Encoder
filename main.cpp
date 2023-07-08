@@ -34,7 +34,6 @@ int main(){
         case 'e':
             encode(encodedFileName);
             cin.clear();
-            cin.ignore();
             break;
         default:
             cout << endl << "You have chosen poorly.\n\n";
@@ -76,6 +75,8 @@ void encode(char encodedFileName[]){
 }
 
 void readInput(char fName[], char lName[], bool &lateFlag){
+    char tempFlag;
+    bool loopState;
     cout << '\n'
          << "Enter your last name: ";
     cin.ignore();
@@ -84,7 +85,34 @@ void readInput(char fName[], char lName[], bool &lateFlag){
          << "Enter your first name: ";
     cin.ignore();
     cin.get(fName, NAMELENGTH, '\n');
-    cout << lName << endl;
+    cin.ignore();
+    do{
+        loopState = true;
+        cout << "Is your assignment late (y/n)? ";
+        cin.get(tempFlag);
+
+        switch (tempFlag)
+        {
+            case 'y':
+            case 'Y':
+                loopState = false;
+                cout << loopState;
+                break;
+            case 'n':
+            case 'N':
+                loopState = false;
+                cout << loopState;
+                break;
+            
+            default:
+                cout << "You have chosen poorly.\n";
+                cin.clear();
+                // cin.ignore();
+                break;
+        }
+    }while (loopState);
+    cin.ignore();
+    cout << endl;
 }
 
 void readInput(char parsedId[], char fileName[]){}
