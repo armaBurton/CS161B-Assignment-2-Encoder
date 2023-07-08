@@ -5,6 +5,10 @@
 
 using namespace std;
 
+const int MAXLENGTH = 200;
+const int NAMELENGTH = 20;
+const int TIME = 6;
+
 void welcome();
 void displayMenu();
 void readOption(char &option);
@@ -13,26 +17,30 @@ void readInput(char fName[], char lName[], bool &lateFlag);
 void readInput(char parsedId[], char fileName[]);
 void readTime(char strTime[]);
 
-CONST INT MAXLENGTH = 200;
-CONST INT NAMELENGTH = 20;
-
 int main(){
-    char menuOption;
     char encodedFileName[MAXLENGTH];
-
+    char menuOption;
     welcome();
     while (true){
+
         displayMenu();
         readOption(menuOption);
-        if (tolower(menuOption) == 'q'){
+        switch (tolower(menuOption))
+        {
+        case 'q':
             return 0;
-        } else if (tolower(menuOption) == 'e'){
+            break;
+        case 'e':
             encode(encodedFileName);
-        } else if (tolower(menuOption) != 'q' || tolower(menuOption) != 'e') {
+            cin.clear();
+            cin.ignore();
+            break;
+        default:
             cout << endl << "You have chosen poorly.\n\n";
+            cin.clear();
+            cin.ignore();
+            break;
         }
-        cin.ignore();
-        menuOption = '\0';
     }
 
     system("pause");
@@ -56,11 +64,22 @@ void readOption(char &option){
 }
 
 void encode(char encodedFileName[]){
-    char fName[NAMELENGTH], lName[NAMELENGTH];
+    char fName[NAMELENGTH], 
+         lName[NAMELENGTH], 
+         fileName[MAXLENGTH],
+         parsedID[MAXLENGTH],
+         subTime[TIME];
     bool lateFlag;
+
+    readInput(fName, lName, lateFlag);
 }
 
-void readInput(char fName[], char lName[], bool &lateFlag){}
+void readInput(char fName[], char lName[], bool &lateFlag){
+    cout << '\n'
+         << "Enter your last name: ";
+    cin.get(lName, NAMELENGTH);
+    cout << lName << endl;
+}
 
 void readInput(char parsedId[], char fileName[]){}
 
