@@ -18,28 +18,28 @@ void readInput(char parsedId[], char fileName[]);
 void readTime(char strTime[]);
 
 int main(){
-    cout << MAXLENGTH << " " << NAMELENGTH << " " << TIME << endl;
     char encodedFileName[MAXLENGTH];
     char menuOption;
-    welcome();
-    while (true){
 
+    welcome();
+
+    while (true){
         displayMenu();
+
         readOption(menuOption);
-        switch (tolower(menuOption))
-        {
-        case 'q':
-            return 0;
-            break;
-        case 'e':
-            encode(encodedFileName);
-            cin.clear();
-            break;
-        default:
-            cout << endl << "You have chosen poorly.\n\n";
-            cin.clear();
-            cin.ignore();
-            break;
+        switch (tolower(menuOption)){
+            case 'q':
+                return 0;
+                break;
+            case 'e':
+                encode(encodedFileName);
+                cin.clear();
+                break;
+            default:
+                cout << endl << "You have chosen poorly.\n\n";
+                cin.clear();
+                cin.ignore();
+                break;
         }
     }
 
@@ -72,20 +72,24 @@ void encode(char encodedFileName[]){
     bool lateFlag;
 
     readInput(fName, lName, lateFlag);
+    cout << fName << " " << lName << " " << lateFlag << endl;
 }
 
 void readInput(char fName[], char lName[], bool &lateFlag){
     char tempFlag;
     bool loopState;
+
     cout << '\n'
          << "Enter your last name: ";
     cin.ignore();
     cin.get(lName, NAMELENGTH, '\n');
+
     cout << '\n'
          << "Enter your first name: ";
     cin.ignore();
     cin.get(fName, NAMELENGTH, '\n');
     cin.ignore();
+
     do{
         loopState = true;
         cout << "Is your assignment late (y/n)? ";
@@ -96,10 +100,12 @@ void readInput(char fName[], char lName[], bool &lateFlag){
             case 'y':
             case 'Y':
                 loopState = false;
+                lateFlag = true;
                 cout << loopState;
                 break;
             case 'n':
             case 'N':
+                lateFlag = false;
                 loopState = false;
                 cout << loopState;
                 break;
@@ -107,10 +113,10 @@ void readInput(char fName[], char lName[], bool &lateFlag){
             default:
                 cout << "You have chosen poorly.\n";
                 cin.clear();
-                // cin.ignore();
                 break;
         }
     }while (loopState);
+    
     cin.ignore();
     cout << endl;
 }
