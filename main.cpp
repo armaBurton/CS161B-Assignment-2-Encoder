@@ -18,6 +18,7 @@ void readInput(char parsedId[], char fileName[]);
 void readTime(char strTime[]);
 
 int main(){
+    cout << MAXLENGTH << " " << NAMELENGTH << " " << TIME << endl;
     char encodedFileName[MAXLENGTH];
     char menuOption;
     welcome();
@@ -77,7 +78,12 @@ void encode(char encodedFileName[]){
 void readInput(char fName[], char lName[], bool &lateFlag){
     cout << '\n'
          << "Enter your last name: ";
-    cin.get(lName, NAMELENGTH);
+    cin.ignore();
+    cin.get(lName, NAMELENGTH, '\n');
+    cout << '\n'
+         << "Enter your first name: ";
+    cin.ignore();
+    cin.get(fName, NAMELENGTH, '\n');
     cout << lName << endl;
 }
 
