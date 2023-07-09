@@ -74,6 +74,7 @@ void encode(char encodedFileName[]){
     readInput(fName, lName, lateFlag);
     cout << fName << " " << lName << " " << lateFlag << endl;
     readInput(parsedID, fileName);
+    cout << endl;
 }
 
 void readInput(char fName[], char lName[], bool &lateFlag){
@@ -143,6 +144,12 @@ void readInput(char parsedId[], char fileName[]){
         }
 
     } while (loopState);
+    cin.ignore();
+    cout << endl;
+
+    cout << "Enter the file name: ";
+    cin.get(fileName, NAMELENGTH, '\n');
+    cout << fileName << endl;
     cin.ignore();
     cout << endl;
 }
