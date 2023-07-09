@@ -2,6 +2,7 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
+#include <regex>
 
 using namespace std;
 
@@ -74,6 +75,8 @@ void encode(char encodedFileName[]){
     readInput(fName, lName, lateFlag);
     cout << fName << " " << lName << " " << lateFlag << endl;
     readInput(parsedID, fileName);
+    cout << parsedID << " " << fileName << endl;
+    readTime(subTime);
     cout << endl;
 }
 
@@ -154,4 +157,23 @@ void readInput(char parsedId[], char fileName[]){
     cout << endl;
 }
 
-void readTime(char strTime[]){}
+void readTime(char strTime[]){
+    const regex pattern("([01]?[0-9]|2[0-3]):[0-5][0-9]");
+    bool loopState;
+
+    do{
+        loopState = true;
+        cout << "Enter the time submitted (military time - ex: 18:24 for 6:24pm): ";
+        cin.get(strTime, TIME, '\n');
+        cin.ignore();
+        cout << endl;
+        if(regex_match(strTime, pattern)){
+            loopState = false;
+        } else {
+            cout << "InValid time format.\n\n";
+        }
+        
+    } while (loopState);
+
+    cout << endl;
+}
