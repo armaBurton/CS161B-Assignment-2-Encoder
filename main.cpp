@@ -9,6 +9,7 @@ using namespace std;
 const int MAXLENGTH = 200;
 const int NAMELENGTH = 20;
 const int TIME = 6;
+const int FIVE = 5;
 
 void welcome();
 void displayMenu();
@@ -68,16 +69,36 @@ void encode(char encodedFileName[]){
     char fName[NAMELENGTH], 
          lName[NAMELENGTH], 
          fileName[MAXLENGTH],
-         parsedID[MAXLENGTH],
-         subTime[TIME];
+         parsedID[FIVE],
+         subTime[TIME],
+         tempTime[TIME];
     bool lateFlag;
 
     readInput(fName, lName, lateFlag);
-    cout << fName << " " << lName << " " << lateFlag << endl;
     readInput(parsedID, fileName);
-    cout << parsedID << " " << fileName << endl;
     readTime(subTime);
     cout << endl;
+
+    strcpy(encodedFileName, lName);
+    strcat(encodedFileName, "_");
+    strcat(encodedFileName, fName);
+    strcat(encodedFileName, "_");
+    if(lateFlag){
+        strcat(encodedFileName, "LATE_");
+    }
+    strcat(encodedFileName, parsedID);
+    strcat(encodedFileName, "_");
+    for (int i = 0, j = 0; i < strlen(subTime); i++, j++){
+        if (subTime[i] == ':'){
+            i++;
+        }
+        tempTime[j] = subTime[i];
+    }
+    strcat(encodedFileName, tempTime);
+    strcat(encodedFileName, "_");
+    strcat(encodedFileName, fileName);
+
+    cout << encodedFileName << endl;
 }
 
 void readInput(char fName[], char lName[], bool &lateFlag){
@@ -97,7 +118,7 @@ void readInput(char fName[], char lName[], bool &lateFlag){
 
     do{
         loopState = true;
-        cout << "Is your assignment late (y/n)? ";
+        cout << "\nIs your assignment late (y/n)? ";
         cin.get(tempFlag);
 
         switch (tempFlag)
@@ -106,13 +127,11 @@ void readInput(char fName[], char lName[], bool &lateFlag){
             case 'Y':
                 loopState = false;
                 lateFlag = true;
-                cout << loopState;
                 break;
             case 'n':
             case 'N':
                 lateFlag = false;
                 loopState = false;
-                cout << loopState;
                 break;
             
             default:
@@ -135,8 +154,10 @@ void readInput(char parsedId[], char fileName[]){
 
         cout << "Enter you Student-ID (format: 666-66-6666): ";
         cin.get(tempId, 12, '\n');
+        cout << tempId << endl;
         strncpy(parsedId, tempId + 7, 4);
         for(int i = 0; i < strlen(parsedId);i++){
+            cout << parsedId[i] << endl;
             if (isdigit(parsedId[i]) == 0){
                 loopState = true;
             }
@@ -152,7 +173,6 @@ void readInput(char parsedId[], char fileName[]){
 
     cout << "Enter the file name: ";
     cin.get(fileName, NAMELENGTH, '\n');
-    cout << fileName << endl;
     cin.ignore();
     cout << endl;
 }
