@@ -73,6 +73,7 @@ void encode(char encodedFileName[]){
 
     readInput(fName, lName, lateFlag);
     cout << fName << " " << lName << " " << lateFlag << endl;
+    readInput(parsedID, fileName);
 }
 
 void readInput(char fName[], char lName[], bool &lateFlag){
@@ -116,11 +117,34 @@ void readInput(char fName[], char lName[], bool &lateFlag){
                 break;
         }
     }while (loopState);
-    
+
     cin.ignore();
     cout << endl;
 }
 
-void readInput(char parsedId[], char fileName[]){}
+void readInput(char parsedId[], char fileName[]){
+    char tempId[12];
+    bool loopState;
+
+    do{
+        loopState = false;
+
+        cout << "Enter you Student-ID (format: 666-66-6666): ";
+        cin.get(tempId, 12, '\n');
+        strncpy(parsedId, tempId + 7, 4);
+        for(int i = 0; i < strlen(parsedId);i++){
+            if (isdigit(parsedId[i]) == 0){
+                loopState = true;
+            }
+        }
+        if (loopState){
+            cout << "You have chosen poorly.\n";
+            cin.ignore();
+        }
+
+    } while (loopState);
+    cin.ignore();
+    cout << endl;
+}
 
 void readTime(char strTime[]){}
