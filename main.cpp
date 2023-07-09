@@ -77,7 +77,6 @@ void encode(char encodedFileName[]){
     readInput(fName, lName, lateFlag);
     readInput(parsedID, fileName);
     readTime(subTime);
-    cout << endl;
 
     strcpy(encodedFileName, lName);
     strcat(encodedFileName, "_");
@@ -98,7 +97,8 @@ void encode(char encodedFileName[]){
     strcat(encodedFileName, "_");
     strcat(encodedFileName, fileName);
 
-    cout << encodedFileName << endl;
+    cout << "Your encoded file name is: " << encodedFileName << endl
+         << endl;
 }
 
 void readInput(char fName[], char lName[], bool &lateFlag){
@@ -154,16 +154,22 @@ void readInput(char parsedId[], char fileName[]){
 
         cout << "Enter you Student-ID (format: 666-66-6666): ";
         cin.get(tempId, 12, '\n');
-        cout << tempId << endl;
-        strncpy(parsedId, tempId + 7, 4);
-        for(int i = 0; i < strlen(parsedId);i++){
-            cout << parsedId[i] << endl;
-            if (isdigit(parsedId[i]) == 0){
-                loopState = true;
+
+        if (strlen(tempId) != 11){
+            loopState = true;
+            memset(tempId, 0, sizeof(tempId));
+        } else {
+            strncpy(parsedId, tempId + 7, 4);
+
+            for(int i = 0; i < strlen(parsedId);i++){
+                if (isdigit(parsedId[i]) == 0){
+                    loopState = true;
+                }
             }
         }
+
         if (loopState){
-            cout << "You have chosen poorly.\n";
+            cout << "\nYou have chosen poorly.\n\n";
             cin.ignore();
         }
 
@@ -192,8 +198,6 @@ void readTime(char strTime[]){
         } else {
             cout << "InValid time format.\n\n";
         }
-        
     } while (loopState);
 
-    cout << endl;
 }
