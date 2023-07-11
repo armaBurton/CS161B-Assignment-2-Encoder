@@ -19,29 +19,37 @@ void readInput(char fName[], char lName[], bool &lateFlag);
 void readInput(char parsedId[], char fileName[]);
 void readTime(char strTime[]);
 
-int main(){
+int main()
+{
     char encodedFileName[MAXLENGTH];
     char menuOption;
 
     welcome();
 
-    while (true){
+    while (true)
+    {
+        // display menu
         displayMenu();
 
+        // read user menu input
         readOption(menuOption);
-        switch (tolower(menuOption)){
-            case 'q':
-                return 0;
-                break;
-            case 'e':
-                encode(encodedFileName);
-                cin.clear();
-                break;
-            default:
-                cout << endl << "You have chosen poorly.\n\n";
-                cin.clear();
-                cin.ignore();
-                break;
+        switch (tolower(menuOption))
+        {
+        case 'q':
+            return 0;
+            break;
+        case 'e':
+            // begin main portion of program
+            encode(encodedFileName);
+            cin.clear();
+            break;
+        default:
+            // if 'e' or 'q' are not chosen
+            cout << endl
+                 << "You have chosen poorly.\n\n";
+            cin.clear();
+            cin.ignore();
+            break;
         }
     }
 
@@ -49,46 +57,65 @@ int main(){
     return 0;
 }
 
-void welcome(){
+void welcome()
+{
     cout << "Welcome to my fileName encoding program!!\n\n";
 }
 
-void displayMenu(){
+void displayMenu()
+{
     cout << "Please pick an option below:\n"
          << "(e) Encode a file name\n"
          << "(q) Quit\n";
 }
- 
-void readOption(char &option){
-    bool loopState = true;
+
+// reads user menu input
+void readOption(char &option)
+{
     cout << ">> ";
     cin.get(option);
 }
 
-void encode(char encodedFileName[]){
-    char fName[NAMELENGTH], 
-         lName[NAMELENGTH], 
-         fileName[MAXLENGTH],
-         parsedID[FIVE],
-         subTime[TIME],
-         tempTime[TIME];
+// controls collection of all user input
+void encode(char encodedFileName[])
+{
+    char fName[NAMELENGTH],
+        lName[NAMELENGTH],
+        fileName[MAXLENGTH],
+        parsedID[FIVE],
+        subTime[TIME],
+        tempTime[TIME];
     bool lateFlag;
 
+    // Prompt user for first name, last name and
+    // wether or not the assignment was late
     readInput(fName, lName, lateFlag);
+
+    // Prompt user for ID and file name
     readInput(parsedID, fileName);
+
+    // Prompt user for time on 24hour format
     readTime(subTime);
 
+    // Following code creates the encoded filename
     strcpy(encodedFileName, lName);
     strcat(encodedFileName, "_");
     strcat(encodedFileName, fName);
     strcat(encodedFileName, "_");
-    if(lateFlag){
+
+    // if lateFlag is true then concat "LATE_" to encodedFileName
+    if (lateFlag)
+    {
         strcat(encodedFileName, "LATE_");
     }
     strcat(encodedFileName, parsedID);
     strcat(encodedFileName, "_");
-    for (int i = 0, j = 0; i < strlen(subTime); i++, j++){
-        if (subTime[i] == ':'){
+
+    // this for loop removes the ':' from the time array
+    for (int i = 0, j = 0; i < strlen(subTime); i++, j++)
+    {
+        if (subTime[i] == ':')
+        {
             i++;
         }
         tempTime[j] = subTime[i];
@@ -96,108 +123,142 @@ void encode(char encodedFileName[]){
     strcat(encodedFileName, tempTime);
     strcat(encodedFileName, "_");
     strcat(encodedFileName, fileName);
+    // Preceding code created the encoded filename
 
     cout << "Your encoded file name is: " << encodedFileName << endl
          << endl;
 }
 
-void readInput(char fName[], char lName[], bool &lateFlag){
+void readInput(char fName[], char lName[], bool &lateFlag)
+{
     char tempFlag;
     bool loopState;
 
+    // input last name
     cout << '\n'
          << "Enter your last name: ";
     cin.ignore();
     cin.get(lName, NAMELENGTH, '\n');
 
+    // input first name
     cout << '\n'
          << "Enter your first name: ";
     cin.ignore();
     cin.get(fName, NAMELENGTH, '\n');
     cin.ignore();
 
-    do{
+    // is assignment late?
+    do
+    {
         loopState = true;
         cout << "\nIs your assignment late (y/n)? ";
         cin.get(tempFlag);
 
         switch (tempFlag)
         {
-            case 'y':
-            case 'Y':
-                loopState = false;
-                lateFlag = true;
-                break;
-            case 'n':
-            case 'N':
-                lateFlag = false;
-                loopState = false;
-                break;
-            
-            default:
-                cout << "You have chosen poorly.\n";
-                cin.clear();
-                break;
+        case 'y':
+        case 'Y':
+            // if assisngment is late set lateFlag = true;
+            loopState = false;
+            lateFlag = true;
+            break;
+        case 'n':
+        case 'N':
+            // if assisngment is late set lateFlag = false;
+            lateFlag = false;
+            loopState = false;
+            break;
+        default:
+            // you have chosen poorly
+            cout << "You have chosen poorly.\n";
+            cin.clear();
+            break;
         }
-    }while (loopState);
+    } while (loopState);
 
     cin.ignore();
     cout << endl;
 }
 
-void readInput(char parsedId[], char fileName[]){
+// read ID and file name
+void readInput(char parsedId[], char fileName[])
+{
     char tempId[12];
     bool loopState;
 
-    do{
+    do
+    {
         loopState = false;
 
+        // input student id
         cout << "Enter you Student-ID (format: 666-66-6666): ";
         cin.get(tempId, 12, '\n');
 
-        if (strlen(tempId) != 11){
+        if (strlen(tempId) != 11)
+        {
+            // if the student id length does not equal 11 then
+            // set loop state true and reset memory
             loopState = true;
             memset(tempId, 0, sizeof(tempId));
-        } else {
+        }
+        else
+        {
+            // if the length is correct copy the last for characters
+            // of tempID into parsedID
             strncpy(parsedId, tempId + 7, 4);
 
-            for(int i = 0; i < strlen(parsedId);i++){
-                if (isdigit(parsedId[i]) == 0){
+            for (int i = 0; i < strlen(parsedId); i++)
+            {
+                if (isdigit(parsedId[i]) == 0)
+                {
+                    // if parsedId[i] is not a number set loopState to true
                     loopState = true;
                 }
             }
         }
 
-        if (loopState){
+        // if loopState is true You have chosen poorly,
+        if (loopState)
+        {
             cout << "\nYou have chosen poorly.\n\n";
             cin.ignore();
         }
 
+        // function loops if loopState is true
     } while (loopState);
     cin.ignore();
     cout << endl;
 
+    // get filename from user
     cout << "Enter the file name: ";
     cin.get(fileName, NAMELENGTH, '\n');
     cin.ignore();
     cout << endl;
 }
 
-void readTime(char strTime[]){
+// read time from user
+void readTime(char strTime[])
+{
+    // regex for checking if user input conforms to 00:00 - 23:59
     const regex pattern("([01]?[0-9]|2[0-3]):[0-5][0-9]");
     bool loopState;
 
-    do{
+    do
+    {
         loopState = true;
         cout << "Enter the time submitted (military time - ex: 18:24 for 6:24pm): ";
         cin.get(strTime, TIME, '\n');
         cin.ignore();
         cout << endl;
-        if(regex_match(strTime, pattern)){
+        // check user input, if format is corect set loopState to false
+        if (regex_match(strTime, pattern))
+        {
             loopState = false;
-        } else {
+        }
+        else
+        {
             cout << "InValid time format.\n\n";
         }
+        // function resets if loopState is true
     } while (loopState);
-
 }
